@@ -72,6 +72,7 @@ void loop() {
         meditation = 0;
 
         for(int i = 0; i < payloadLength; i++) {
+        Serial.println(payloadData[i]);
           switch (payloadData[i]) {
           case 2:
             i++;
