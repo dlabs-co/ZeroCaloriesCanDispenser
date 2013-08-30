@@ -53,62 +53,15 @@ byte ReadOneByte() {
 void loop() {
   if(ReadOneByte() == 170) {
     if(ReadOneByte() == 170) {
-      payloadLength = ReadOneByte();
-      if(payloadLength > 169) {
-          Serial.print("Too big");
-      }
-      generatedChecksum = 0;
-      for(int i = 0; i < payloadLength; i++) {
-        payloadData[i] = ReadOneByte();
-        generatedChecksum += payloadData[i];
-      }
-
-      checksum = ReadOneByte();
-      generatedChecksum = 255 - generatedChecksum;
-
-      if(checksum == generatedChecksum) {
-        poorQuality = 200;
-        attention = 0;
-        meditation = 0;
-
-        for(int i = 0; i < payloadLength; i++) {
-        Serial.println(payloadData[i]);
-          switch (payloadData[i]) {
-          case 2:
-            i++;
-            poorQuality = payloadData[i];
-            bigPacket = true;
-            break;
-          case 4:
-            i++;
-            attention = payloadData[i];
-            break;
-          case 5:
-            i++;
-            meditation = payloadData[i];
-            break;
-          case 0x80:
-            i = i + 3;
-            break;
-          case 0x83:
-            i = i + 25;
-            break;
-          default:
-            break;
+      ReadOneByte();
+      if (20 == ReadOneByte()) {
+          for(int i = 0; i < 13; i++) {
+            ReadOneByte();
           }
+          concentracion = ReadOneByte();
+          Serial.println(concentracion);
         }
-
-        if(bigPacket) {
-          Serial.print("PoorQuality: ");
-          Serial.print(poorQuality, DEC);
-          Serial.print("\n");
-        }
-        bigPacket = false;
-      }
-      else {
-        Serial.println("Checksum error");
       }
     }
-  }
 }
 
