@@ -1,6 +1,15 @@
 #define BAUDRATE 115200
 #define powercontrol 10
 
+
+int i;
+int m;
+
+int led = 12;
+int ledm = 11;
+
+
+
 byte generatedChecksum = 0;
 byte checksum = 0;
 byte payloadData[64] = {0};
@@ -50,18 +59,26 @@ byte ReadOneByte() {
   return ByteRead;
 }
 
+
+void flash() {
+  digitalWrite(led, HIGH); 
+    delay(5);              
+  digitalWrite(led, LOW);  
+}
+
 void loop() {
   if(ReadOneByte() == 170) {
     if(ReadOneByte() == 170) {
-      ReadOneByte();
-      if (20 == ReadOneByte()) {
-          for(int i = 0; i < 13; i++) {
-            ReadOneByte();
-          }
-          concentracion = ReadOneByte();
-          Serial.println(concentracion);
-        }
-      }
-    }
-}
+      if(ReadOneByte() == 32) {
+        for(i=0;i<32;i++) {
+          ReadOneByte();
+          if(i==28) {
+            flash();
+            if(ReadOneByte() > 80) {
+              digitalWrite(ledm, HIGH);}
+            else {
+              digitalWrite(ledm, LOW);
+              }
+            }}}}}}
+
 
