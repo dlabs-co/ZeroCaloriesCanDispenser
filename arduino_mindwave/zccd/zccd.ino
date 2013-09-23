@@ -19,8 +19,9 @@
 int i;
 int m;
 
-int open = 12;
-int invert = 11;
+int on = 7;
+int open_ = 6;
+int invert = 5;
 
 byte generatedChecksum = 0;
 byte checksum = 0;
@@ -33,6 +34,9 @@ long lastReceivedPacket = 0;
 boolean bigPacket = false;
 
 void setup() {
+    pinMode(open_, OUTPUT);
+    pinMode(invert, OUTPUT);
+    pinMode(on, OUTPUT); 
     Serial.begin(BAUDRATE);
     delay(3000) ;
     sendATcommand("AT", "0K", 2000);
@@ -72,29 +76,32 @@ byte ReadOneByte() {
 }
 
 
-void open() {
-  digitalWrite(open, HIGH);
-  delay(500);
+void do_open() {
+  digitalWrite(open_, HIGH);
+  delay(20000);
   digitalWrite(invert, HIGH);
-  delay(500);
+  delay(20000);
   digitalWrite(invert, LOW);
-  digitalWrite(open, LOW);
+  digitalWrite(open_, LOW);
 }
 
 void loop() {
-    // Comprobación de inicio
-    if(ReadOneByte() == 170) { if(ReadOneByte() == 170) {
-        // Paquete de 32 b
-        if(ReadOneByte() == 32) {
-            for(i=0; i<32; i++) {
-                ReadOneByte();
-                // El 29 es lo que buscamos.
-                if(i==28) {
-                    if(ReadOneByte() > 80) {
-                        open()
+    // Main switch...
+    if (digitalRead(on) == HIGH) {   
+      // Comprobación de inicio
+        if(ReadOneByte() == 170) { if(ReadOneByte() == 170) {
+            // Paquete de 32 b
+            if(ReadOneByte() == 32) {
+                for(i=0; i<32; i++) {
+                    ReadOneByte();
+                    // El 29 es lo que buscamos.
+                    if(i==28) {
+                        if(ReadOneByte() > 80) {
+                            do_open();
+                        }
                     }
                 }
             }
-        }
-    }}
+        }}
+    }
 }
