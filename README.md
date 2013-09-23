@@ -35,3 +35,13 @@ Software
 
 You'll find the needed arduino in mindwave_arduino/ directory, just burn and
 have fun!
+
+Some pics
+==========
+
+
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/1.jpg
+
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/2.jpg
+
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/3.jpg
