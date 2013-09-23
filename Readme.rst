@@ -40,8 +40,8 @@ Some pics
 ==========
 
 
-.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/1.jpg
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/pics/1.jpg
 
-.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/2.jpg
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/pics/2.jpg
 
-.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/3.jpg
+.. image:: https://raw.github.com/dlabs-co/ZeroCaloriesCanDispenser/master/pics/3.jpg
