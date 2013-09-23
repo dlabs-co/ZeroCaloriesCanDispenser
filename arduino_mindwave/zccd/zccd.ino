@@ -23,16 +23,6 @@ int on = 7;
 int open_ = 6;
 int invert = 5;
 
-byte generatedChecksum = 0;
-byte checksum = 0;
-byte payloadData[64] = {0};
-byte poorQuality = 0;
-byte attention = 0;
-byte meditation = 0;
-int payloadLength = 0;
-long lastReceivedPacket = 0;
-boolean bigPacket = false;
-
 void setup() {
     pinMode(open_, OUTPUT);
     pinMode(invert, OUTPUT);
