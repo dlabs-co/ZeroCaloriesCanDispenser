@@ -14,20 +14,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#define BAUDRATE 115200
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 int i;
 int m;
 
-int on = 7;
-int open_ = 6;
-int invert = 5;
+int controlonoff = 7;
+int controlrele = 6;
+int controlmotor = 5;
+int senalapertura = 4;
+
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 
 void setup() {
-    pinMode(open_, OUTPUT);
-    pinMode(invert, OUTPUT);
-    pinMode(on, OUTPUT); 
-    Serial.begin(BAUDRATE);
+    pinMode(controlonoff, INPUT);
+    pinMode(controlrele, OUTPUT);
+    pinMode(controlmotor, OUTPUT);
+    pinMode(senalapertura, INPUT);
+
+    digitalWrite(controlrele, LOW);
+    digitalWrite(controlmotor, HIGH);
+
+    lcd.begin(16,2);
+    lcd.backlight();
+
+    Serial.begin(115200);
     delay(3000) ;
     sendATcommand("AT", "0K", 2000);
     delay(3000) ;
@@ -65,20 +77,35 @@ byte ReadOneByte() {
   return ByteRead;
 }
 
+int print_lcd(char* line1, char* line2) {
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(line1);
+    delay(1000);
+    lcd.setCursor(0,1);
+    lcd.print(line2);
+    delay(5000);
+    return 0;
+}
 
 void do_open() {
-  digitalWrite(open_, HIGH);
-  delay(20000);
-  digitalWrite(invert, HIGH);
-  delay(20000);
-  digitalWrite(invert, LOW);
-  digitalWrite(open_, LOW);
+    digitalWrite(controlmotor, LOW);
+    print_lcd("Beer request", "Opening door");
+    digitalWrite(controlmotor, HIGH);
+    print_lcd("Beer request", "Waiting beer");
+    digitalWrite(controlrele, HIGH);
+    print_lcd("Beer request", "Closing door");
+    digitalWrite(controlrele, HIGH);
+    print_lcd("Beer request", "Beer Beer Beer!");
 }
 
 void loop() {
+    print_lcd("Beer Machine", "Dlabs & CH");
     // Main switch...
-    if (digitalRead(on) == HIGH) {   
-      // Comprobación de inicio
+    if (digitalRead(controlonoff) == HIGH) {
+        print_lcd("System activated", "Open your mind");
+        delay(1000);
+        // Comprobación de inicio
         if(ReadOneByte() == 170) { if(ReadOneByte() == 170) {
             // Paquete de 32 b
             if(ReadOneByte() == 32) {
